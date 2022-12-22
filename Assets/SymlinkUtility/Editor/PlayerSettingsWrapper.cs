@@ -1,5 +1,5 @@
 ﻿using UnityEditor;
-namespace Swither.Analytics
+namespace Symlink
 {
     public static class PlayerSettingsWrapper
     {

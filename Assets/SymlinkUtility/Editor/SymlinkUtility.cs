@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Diagnostics;
 
-namespace Swither.Analytics
+namespace Symlink
 {
     /**
      *  Original source can be found on https://github.com/karl-/unity-symlink-utility
@@ -154,7 +154,7 @@ namespace Swither.Analytics
                 return;
 
             // Get path to Folder.
-            string linkFolderName = linkFolderPath.Split(new string[1] { "Analytics" }, System.StringSplitOptions.None).LastOrDefault();
+            string linkFolderName = linkFolderPath.Split(new char[] { '/', '\\' }, System.StringSplitOptions.None).LastOrDefault();
 
 
             if (string.IsNullOrEmpty(linkFolderName))
@@ -163,18 +163,15 @@ namespace Swither.Analytics
                 return;
             }
             linkFolderName = linkFolderName.Replace("/", "");
-
-            // Get path to project.
-            string pathToProject = Application.dataPath.Split(new string[1] { "Analytics" }, System.StringSplitOptions.None).FirstOrDefault();
-
-            if (!Directory.Exists(string.Format("{0}/{1}/{2}", pathToProject, "Analytics", linkFolderName)))
+                       
+            if (!Directory.Exists(linkFolderPath))
             {
                 UnityEngine.Debug.LogWarning(string.Format("Folder does not exists at this location, aborting remove.\n{0}", linkFolderPath));
                 return;
             }
 
 #if UNITY_EDITOR_WIN
-            string command = string.Format("rd \"{0}/Analytics/{1}\"", pathToProject, linkFolderName);
+            string command = string.Format("rd \"{0}\"", linkFolderPath);
 
             ExecuteCmdCommand(command, linkType != SymlinkType.Junction); // Symlinks require admin privilege on windows, junctions do not.
 
@@ -187,8 +184,6 @@ namespace Swither.Analytics
 #elif UNITY_EDITOR_LINUX
             // Is Linux the same as OSX?
 #endif
-
-            //UnityEngine.Debug.Log(string.Format("Created symlink: {0} <=> {1}", targetPath, sourceFolderPath));
 
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         }

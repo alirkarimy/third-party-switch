@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace Swither.Analytics
+namespace Symlink.Analytics
 {
     [InitializeOnLoad]
     internal static class AnalyticsSwitcher
